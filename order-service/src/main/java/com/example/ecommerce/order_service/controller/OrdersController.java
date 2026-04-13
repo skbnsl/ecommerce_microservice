@@ -1,15 +1,13 @@
 package com.example.ecommerce.order_service.controller;
 
+import com.example.ecommerce.order_service.clients.InventorOpenFeignClient;
 import com.example.ecommerce.order_service.dto.OrderRequestDto;
 import com.example.ecommerce.order_service.service.OrdersService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,10 +18,17 @@ import java.util.List;
 public class OrdersController {
 
     private final OrdersService orderService;
+    private final InventorOpenFeignClient inventorOpenFeignClient;
 
     @GetMapping("/helloOrders")
     public String helloOrders(){
         return "Hello from order service";
+    }
+
+    @PostMapping("/create-order")
+    public ResponseEntity<OrderRequestDto> createOrder(@RequestBody OrderRequestDto orderRequestDto){
+        OrderRequestDto orderRequestDto1 = orderService.createOrder(orderRequestDto);
+        return ResponseEntity.ok(orderRequestDto1);
     }
 
     @GetMapping
